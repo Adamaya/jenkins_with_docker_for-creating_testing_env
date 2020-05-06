@@ -22,7 +22,7 @@ and for branch option choose */master.
 
 - go to build section and choose execute shell option and copy the following code
 
-'cp * /myrop/master'
+`cp * /myrop/master`
 
 these folder must be created /myrop/master.
 - now create an another job named pullTesting
@@ -33,5 +33,5 @@ and for branch option choose */testing.
 
 - go to build section and choose execute shell option and copy the following code
 
-'cp * /myrop/testing'
+`cp * /myrop/testing`
 
