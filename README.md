@@ -3,7 +3,6 @@
 ## Prerequisits
 - for implementing this project I have used RHEL8 as base operating system so it is advised to you to use RHEL8 as your base OS.
 - jenkins and docker must be installed in your base OS.
-- 
 
 ## Steps
 **Note:** for implementing this project I have used RHEL8 as base operating system so it is advised to you to use RHEL8 as your base OS. \
@@ -72,4 +71,3 @@ and save it.
 ## How to Test
 - commit into master branch will directly deploy a docker container of production environment which will be exposed to port 80.
 - commit into testing branch will directly deploy a docker container of testing environment which will not be exposed only be accessed by its local ip address.
--
