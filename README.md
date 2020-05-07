@@ -16,11 +16,11 @@ follow the step by step instruction for deploying your code to to docker testing
 
 - create the folder to contain the pulled data from github by  entering the following command.
 
-`mkdir myrepo
+`mkdir myrepo`
 
-cd myrepo
+`cd myrepo`
 
-mkdir master testing`
+`mkdir master testing`
 
 - Login into your jenkins install the github plugins.
 
@@ -56,22 +56,34 @@ and for branch option choose */testing.
 - now again build a job deployTestingEnv
 - go to configure build trigger option and choose option **build after other projects are built** and write **pullTesting**.
 - now go to build section and choose execute shell option and write the following code 
+
 `if sudo docker ps -a | grep httpd2
+
 then
+
 echo "container created already"
+
 else
+
 sudo docker container run -d -i -t -v /myrepo/testing/:/user/local/apache2/htdocs/ --name httpd2 httpd
+
 fi`
 and save it.
 
 now again build a job deployProductionEnv
 - go to configure build trigger option and choose option **build after other projects are built** and write **pullMaster**.
 - now go to build section and choose execute shell option and write the following code 
+
 `if sudo docker ps -a | grep httpd1
+
 then
+
 echo "container created already"
+
 else
+
 sudo docker container run -d -i -t -p 80:80 -v /myrepo/master/:/user/local/apache2/htdocs/ --name httpd1 httpd
+
 fi`
 and save it.
 ## How to Test
