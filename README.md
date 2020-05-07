@@ -16,7 +16,7 @@ follow the step by step instruction for deploying your code to to docker testing
 
 - create the folder to contain the pulled data from github by  entering the following command.
 
-`mkdir myrepo <br/>
+`mkdir myrepo <br>
 cd myrepo
 mkdir master testing`
 
