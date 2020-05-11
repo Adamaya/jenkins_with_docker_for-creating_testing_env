@@ -5,7 +5,7 @@
 - jenkins and docker must be installed in your base OS.
 
 ## Steps
-**Note: in this tuutorial i am using my repository to pull the webapp buy you can use your our repository too.** 
+**Note: in this tuutorial i am using my repository to pull the webapp but you can use your our repository too.** 
 follow the step by step instruction for deploying your code to to docker testing environment and prodection environment
 
 - first of all start the jenkins and docker in your base os by entering following command.
