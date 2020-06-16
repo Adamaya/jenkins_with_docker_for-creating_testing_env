@@ -18,11 +18,12 @@ follow the step by step instruction for deploying your code to to docker testing
 
 ```mkdir myrepo
 cd myrepo
-mkdir master testing```
+mkdir master testing
+```
 
 - Login into your jenkins install the github plugins.
 
-- create the job named 1_pull_master_deploy_production_to_env.
+- create the job named **1_pull_master_deploy_production_to_env**.
 and do as given in following images.
 
 
@@ -30,31 +31,58 @@ and do as given in following images.
 
 and for branch option choose */master.
 
+![configure github pull](/images/1.jpg)
+
 -go to build trigger section and check the **Poll SCM** option. write \*\*\*\*\* in box\
  it will enable jenkins to  check git repository updates in every 1 min. If there is any change it will pull the data.
 
+![configure github pull](/images/2.jpg)
+
 - go to build section and choose execute shell option and copy the following code
 
-`cp * /myrepo/master/`
+```
+cp * /myrepo/master/
+if sudo docker ps -a | grep httpdproduction
+then
+echo "container is running"
+else
+sudo docker container run -dit --name httpdproduction -p 80:80 -v /myrepo/master/:/usr/local/apache2/htdocs/ httpd
+fi
+```
 
-these folder must be created /myrepo/master.
+!build](/images/3.jpg)
 
-- now create an another job named pullTesting
+- now create an another job named **2_pull_testing_deploy_to_testing_env**
 
 - go to source code management option and select git option and paste the link of repo 'https://github.com/Adamaya/jenkins_with_docker_for-creating_testing_env.git'
 
 and for branch option choose */testing.
 
+![configure github pull](/images/4.jpg)
 
 -go to build trigger section and check the **Poll SCM** option. write \*\*\*\*\* in box\
  it will enable jenkins to  check git repository updates in every 1 min. If there is any change it will pull the data.
 
+
+![configure github pull](/images/5.jpg)
+
 - go to build section and choose execute shell option and copy the following code
 
-`cp * /myrepo/testing/`
+```
+ip=$(sudo docker container inspect --format "{{.NetworkSettings.IPAddress}}" httpdtesting)
+status=$(curl -o /dev/null -s -w "%{http_code}" $ip:80)
+if [[ $status == 200 ]]
+then
+echo "working good"
+else
+exit 1
+fi
+```
+
+![configure github pull](/images/6.jpg)
 
 - now again build a job deployTestingEnv
-- go to configure build trigger option and choose option **build after other projects are built** and write **pullTesting**.
+- go to configure build trigger option and choose option **build after other projects are built** and write **1_pull_master_deploy_production_to_env**.
 - now go to build section and choose execute shell option and write the following code 
 
 ```
