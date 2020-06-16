@@ -57,34 +57,29 @@ and for branch option choose */testing.
 - go to configure build trigger option and choose option **build after other projects are built** and write **pullTesting**.
 - now go to build section and choose execute shell option and write the following code 
 
-`if sudo docker ps -a | grep httpd2
-
+```
+if sudo docker ps -a | grep httpd2
 then
-
 echo "container created already"
-
 else
-
 sudo docker container run -d -i -t -v /myrepo/testing/:/user/local/apache2/htdocs/ --name httpd2 httpd
-
-fi`
+fi
+```
 and save it.
 
 now again build a job deployProductionEnv
 - go to configure build trigger option and choose option **build after other projects are built** and write **pullMaster**.
 - now go to build section and choose execute shell option and write the following code 
 
-`if sudo docker ps -a | grep httpd1
-
+```
+if sudo docker ps -a | grep httpd1
 then
-
 echo "container created already"
-
 else
-
 sudo docker container run -d -i -t -p 80:80 -v /myrepo/master/:/user/local/apache2/htdocs/ --name httpd1 httpd
+fi
+```
 
-fi`
 and save it.
 ## How to Test
 - commit into master branch will directly deploy a docker container of production environment which will be exposed to port 80.
