@@ -50,23 +50,41 @@ sudo docker container run -dit --name httpdproduction -p 80:80 -v /myrepo/master
 fi
 ```
 
-!build](/images/3.jpg)
+![build](/images/3.JPG)
 
 - now create an another job named **2_pull_testing_deploy_to_testing_env**
+- go to configure build trigger option and choose option **build after other projects are built** and write **2_pull_testing_deploy_to_testing_env**.
+
+![configure github pull](/images/7.JPG)
 
 - go to source code management option and select git option and paste the link of repo 'https://github.com/Adamaya/jenkins_with_docker_for-creating_testing_env.git'
 
 and for branch option choose */testing.
 
-![configure github pull](/images/4.jpg)
+![configure github pull](/images/4.JPG)
 
 -go to build trigger section and check the **Poll SCM** option. write \*\*\*\*\* in box\
  it will enable jenkins to  check git repository updates in every 1 min. If there is any change it will pull the data.
 
 
-![configure github pull](/images/5.jpg)
+![configure github pull](/images/5.JPG)
 
 - go to build section and choose execute shell option and copy the following code
+
+```
+if sudo docker ps -a | grep httpd2
+then
+echo "container created already"
+else
+sudo docker container run -d -i -t -v /myrepo/testing/:/user/local/apache2/htdocs/ --name httpd2 httpd
+fi
+```
+
+![configure github pull](/images/6.JPG)
+
+- now again build a job **3_checking_website_working_in_TestingEnv**
+
+- now go to build section and choose execute shell option and write the following code 
 
 ```
 ip=$(sudo docker container inspect --format "{{.NetworkSettings.IPAddress}}" httpdtesting)
@@ -78,39 +96,17 @@ else
 exit 1
 fi
 ```
-
-![configure github pull](/images/6.jpg)
-
-- now again build a job deployTestingEnv
-- go to configure build trigger option and choose option **build after other projects are built** and write **1_pull_master_deploy_production_to_env**.
-- now go to build section and choose execute shell option and write the following code 
-
-```
-if sudo docker ps -a | grep httpd2
-then
-echo "container created already"
-else
-sudo docker container run -d -i -t -v /myrepo/testing/:/user/local/apache2/htdocs/ --name httpd2 httpd
-fi
-```
+![configure github pull](/images/8.JPG)
 and save it.
 
-now again create a job deployProductionEnv
-- go to configure build trigger option and choose option **build after other projects are built** and write **pullMaster**.
-- now go to build section and choose execute shell option and write the following code 
+now again create a 4_merge_test_to_master
+- go to configure build trigger option and choose option **build after other projects are built** and write **3_checking_website_working_in_TestingEnv**.
 
-```
-if sudo docker ps -a | grep httpd1
-then
-echo "container created already"
-else
-sudo docker container run -d -i -t -p 80:80 -v /myrepo/master/:/user/local/apache2/htdocs/ --name httpd1 httpd
-fi
-```
-
-and save it.
-
-create a job 
+![configure github pull](/images/9.JPG)
+![configure github pull](/images/10.JPG)
+![configure github pull](/images/11.JPG)
+ 
 ## How to Test
 - commit into master branch will directly deploy a docker container of production environment which will be exposed to port 80.
 - commit into testing branch will directly deploy a docker container of testing environment which will not be exposed only be accessed by its local ip address.
+![configure github pull](/images/12.JPG)
