@@ -24,7 +24,9 @@ follow the step by step instruction for deploying your code to to docker testing
 
 - Login into your jenkins install the github plugins.
 
-- create the job named pullMaster.
+- create the job named 1_pull_master_deploy_production_to_env.
+and do as given in following images.
+
 
 - go to source code management option and select git option and paste the link of repo 'https://github.com/Adamaya/jenkins_with_docker_for-creating_testing_env.git'
 
@@ -67,7 +69,7 @@ fi
 ```
 and save it.
 
-now again build a job deployProductionEnv
+now again create a job deployProductionEnv
 - go to configure build trigger option and choose option **build after other projects are built** and write **pullMaster**.
 - now go to build section and choose execute shell option and write the following code 
 
@@ -81,6 +83,8 @@ fi
 ```
 
 and save it.
+
+create a job 
 ## How to Test
 - commit into master branch will directly deploy a docker container of production environment which will be exposed to port 80.
 - commit into testing branch will directly deploy a docker container of testing environment which will not be exposed only be accessed by its local ip address.
