@@ -31,12 +31,12 @@ and do as given in following images.
 
 and for branch option choose */master.
 
-![configure github pull](/images/1.jpg)
+![configure github pull](/images/1.JPG)
 
 -go to build trigger section and check the **Poll SCM** option. write \*\*\*\*\* in box\
  it will enable jenkins to  check git repository updates in every 1 min. If there is any change it will pull the data.
 
-![configure github pull](/images/2.jpg)
+![configure github pull](/images/2.JPG)
 
 - go to build section and choose execute shell option and copy the following code
 
